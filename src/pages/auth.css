@@ -86,7 +86,7 @@
   width: 100%;
   padding: 10px 14px;
   font-size: 15px;
-  font-family: var(--sans);
+  font-family: var(--sans), sans-serif;
   color: var(--text-h);
   background: var(--bg);
   border: 1px solid var(--border);
@@ -187,7 +187,7 @@
   padding: 11px 20px;
   font-size: 15px;
   font-weight: 600;
-  font-family: var(--sans);
+  font-family: var(--sans), sans-serif;
   color: #fff;
   background: var(--accent);
   border: none;
@@ -215,7 +215,7 @@
   padding: 11px 20px;
   font-size: 15px;
   font-weight: 500;
-  font-family: var(--sans);
+  font-family: var(--sans), sans-serif;
   color: var(--text-h);
   background: transparent;
   border: 1px solid var(--border);
