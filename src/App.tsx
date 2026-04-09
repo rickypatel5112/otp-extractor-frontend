@@ -27,7 +27,6 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
-					{/* TODO: add your main app route here */}
 					<Route path="/" element={<Navigate to="/login" replace />} />
 				</Routes>
 			</AuthProvider>
