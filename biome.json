@@ -19,7 +19,8 @@
 			"recommended": true,
 			"correctness": {
 				"useExhaustiveDependencies": "warn",
-				"noUnusedVariables": "warn"
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error"
 			},
 			"suspicious": {
 				"noExplicitAny": "warn"
