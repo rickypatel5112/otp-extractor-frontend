@@ -1,4 +1,4 @@
-import { AlertCircle, ArrowLeft, Check, Eye, EyeOff, XCircle } from "lucide-react";
+import { AlertCircle, ArrowLeft, Check, Eye, EyeOff, ShieldAlert, XCircle } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -70,7 +70,7 @@ export default function ResetPasswordPage() {
 							className="reset-success-icon"
 							style={{ background: "rgba(239,68,68,0.1)", color: "#ef4444" }}
 						>
-							<XCircle size={28} />
+							<ShieldAlert size={28} />
 						</div>
 						<h1 className="auth-heading">Invalid link</h1>
 						<p className="auth-subheading" style={{ marginBottom: 0 }}>
