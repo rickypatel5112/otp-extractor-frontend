@@ -1,4 +1,4 @@
-import { AlertCircle, ArrowLeft, Check, Eye, EyeOff, ShieldAlert, XCircle } from "lucide-react";
+import { AlertCircle, ArrowLeft, Check, Eye, EyeOff, ShieldAlert } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
