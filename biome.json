@@ -20,7 +20,7 @@
 			"correctness": {
 				"useExhaustiveDependencies": "warn",
 				"noUnusedVariables": "error",
-				"noUnusedImports": "error"
+				"noUnusedImports": "error" 
 			},
 			"suspicious": {
 				"noExplicitAny": "warn"
