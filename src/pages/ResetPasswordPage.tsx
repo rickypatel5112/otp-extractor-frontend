@@ -1,22 +1,36 @@
-import { AlertCircle, ArrowLeft, Check, Eye, EyeOff, ShieldAlert } from "lucide-react";
+import {
+	AlertCircle,
+	ArrowLeft,
+	Check,
+	CheckCircle,
+	Eye,
+	EyeOff,
+	ShieldAlert,
+	XCircle,
+} from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useAuth } from "../context/useAuth";
 import "./auth.css";
 
-function getPasswordStrength(password: string): 0 | 1 | 2 | 3 | 4 {
-	if (!password) return 0;
-	let score = 0;
-	if (password.length >= 8) score++;
-	if (/[A-Z]/.test(password)) score++;
-	if (/[0-9]/.test(password)) score++;
-	if (/[^A-Za-z0-9]/.test(password)) score++;
-	return score as 0 | 1 | 2 | 3 | 4;
-}
-
-const strengthLabels = ["", "Weak", "Fair", "Good", "Strong"];
-const strengthClasses = ["", "active-weak", "active-fair", "active-good", "active-strong"];
+const requirements = [
+	{ label: "At least 8 characters", test: (v: string) => v.length >= 8 },
+	{
+		label: "At least one uppercase letter",
+		test: (v: string) => /[A-Z]/.test(v),
+	},
+	{
+		label: "At least one lowercase letter",
+		test: (v: string) => /[a-z]/.test(v),
+	},
+	{ label: "At least one number", test: (v: string) => /[0-9]/.test(v) },
+	{
+		label: "At least one special character",
+		test: (v: string) => /[^A-Za-z0-9]/.test(v),
+	},
+	{ label: "No spaces", test: (v: string) => v.length > 0 && !/\s/.test(v) },
+];
 
 export default function ResetPasswordPage() {
 	const { resetPassword } = useAuth();
@@ -31,9 +45,9 @@ export default function ResetPasswordPage() {
 	const [done, setDone] = useState(false);
 	const [error, setError] = useState("");
 
-	const strength = getPasswordStrength(password);
+	const allRequirementsMet = requirements.every((r) => r.test(password));
 	const passwordMismatch = confirmPassword.length > 0 && password !== confirmPassword;
-	const isValid = password && confirmPassword && !passwordMismatch && strength >= 2;
+	const isValid = password && confirmPassword && !passwordMismatch && allRequirementsMet;
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -41,8 +55,8 @@ export default function ResetPasswordPage() {
 			setError("Passwords do not match.");
 			return;
 		}
-		if (strength < 2) {
-			setError("Please choose a stronger password.");
+		if (!allRequirementsMet) {
+			setError("Please meet all password requirements.");
 			return;
 		}
 		setError("");
@@ -167,20 +181,43 @@ export default function ResetPasswordPage() {
 								{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
 							</button>
 						</div>
+
 						{password.length > 0 && (
-							<>
-								<div className="password-strength">
-									{[1, 2, 3, 4].map((level) => (
-										<div
-											key={level}
-											className={`strength-bar ${strength >= level ? strengthClasses[strength] : ""}`}
-										/>
-									))}
-								</div>
-								<span className="strength-label">{strengthLabels[strength]}</span>
-							</>
+							<ul
+								style={{
+									listStyle: "none",
+									padding: 0,
+									margin: "8px 0 0",
+									display: "flex",
+									flexDirection: "column",
+									gap: 4,
+								}}
+							>
+								{requirements.map((req) => {
+									const pass = req.test(password);
+									return (
+										<li
+											key={req.label}
+											style={{
+												display: "flex",
+												alignItems: "center",
+												gap: 6,
+												fontSize: 13,
+												color: pass ? "#1D9E75" : "#E24B4A",
+												transition: "color 0.15s",
+											}}
+										>
+											{pass ? (
+												<CheckCircle size={14} style={{ flexShrink: 0 }} />
+											) : (
+												<XCircle size={14} style={{ flexShrink: 0 }} />
+											)}
+											{req.label}
+										</li>
+									);
+								})}
+							</ul>
 						)}
-						<span className="form-hint">Min 8 chars, include uppercase, number, and symbol</span>
 					</div>
 
 					<div className="form-field">
@@ -206,11 +243,11 @@ export default function ResetPasswordPage() {
 					</button>
 				</form>
 
-				<div className="auth-footer">
+				<div className="auth-footer" style={{ display: "flex", justifyContent: "center" }}>
 					<Link
 						to="/login"
 						className="auth-link"
-						style={{ display: "flex", alignItems: "center", gap: 6 }}
+						style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
 					>
 						<ArrowLeft size={15} />
 						Back to sign in

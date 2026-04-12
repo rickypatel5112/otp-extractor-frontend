@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
 		setError("");
 		setLoading(true);
 		try {
-			await forgotPassword(email);
+			await forgotPassword(email, "https://localhost:5173/reset-password");
 			setSent(true);
 		} catch {
 			setError("Something went wrong. Please try again.");

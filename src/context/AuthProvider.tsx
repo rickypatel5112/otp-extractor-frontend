@@ -118,17 +118,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		}
 	};
 
-	const forgotPassword = async (email: string) => {
+	const forgotPassword = async (email: string, frontEndUrl: string) => {
 		await apiFetch("/forgot-password", {
 			method: "POST",
-			body: JSON.stringify({ email }),
+			body: JSON.stringify({ email, frontEndUrl }),
 		});
 	};
 
 	const resetPassword = async (token: string, password: string) => {
 		await apiFetch(`/reset-password?token=${encodeURIComponent(token)}`, {
 			method: "POST",
-			body: JSON.stringify({ newPassword: password }),
+			body: JSON.stringify({ password: password }),
 		});
 	};
 
